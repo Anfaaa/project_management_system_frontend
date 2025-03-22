@@ -1,0 +1,83 @@
+/* forms.css */
+
+.form-container {
+    padding: 10px 20px 20px 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 15px 3px #ccccccdb;
+    background-color: #fff;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    font-size: 26px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.form label {
+    flex: 1;
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.form input:not([type="checkbox"]), select {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form input:not([type="checkbox"]):focus, 
+ select:focus {
+    outline: none;
+    border-color: #bababa;
+    box-shadow: 0 0 5px 1px #ccc;
+}
+
+.form Button {
+    align-self: center;
+}
+
+.form .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.form input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    margin-top: 6px;
+    margin-right: 300px;
+}
+
+.form input[type="checkbox"]:checked::after {
+    content: '✔'; /* Символ галочки */
+    left: 3px;
+    bottom: 0.1px;
+    position: absolute;
+    font-size: 15px;
+}
+
+.form input[type="checkbox"]:focus {
+    border-color: #bababa;
+    box-shadow: 0 0 5px 1px #ccc;
+}

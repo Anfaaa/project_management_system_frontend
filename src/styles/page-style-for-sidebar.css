@@ -1,0 +1,12 @@
+/* page-style-for-sidebar.css */
+
+.page-container-for-sidebar {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+.page-container-for-sidebar .page-content {
+    flex: 1;
+    padding: 20px;
+}

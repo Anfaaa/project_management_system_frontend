@@ -1,0 +1,30 @@
+/* sidebar.css */
+
+.sidebar {
+    width: 20vw;
+    height: inherit;
+    background-color: #f4f4f4;
+    user-select: none;
+    box-shadow: 0 0 5px 1px #ccc;
+    padding: 20px;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+.sidebar nav ul li a:hover {
+    font-weight: 500;
+    color: #111;
+}

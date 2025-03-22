@@ -1,0 +1,13 @@
+/* form-page.css */
+
+.form-page {
+    user-select: none;
+    width: 100vw;
+    height: 90vh;
+    align-items: flex-start;
+    justify-content: center;
+    display: flex;
+    padding-top: 10vh;
+    background-image: url("./wall.jpg");
+    background-size: cover;
+}

@@ -1,0 +1,24 @@
+/* button.css */
+
+.button {
+    user-select: none;
+    width: 210px;
+    height: 45px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+    background: #000;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.button:hover {
+    box-shadow: 0 0 10px 2.5px #000;
+}
+
+.button:active {
+    background-color: #2b2b2b;
+    box-shadow: 0 0 15px 5px #000;
+}
