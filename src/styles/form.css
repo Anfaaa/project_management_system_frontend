@@ -1,11 +1,11 @@
-/* forms.css */
+/* form.css */
 
 .form-container {
     padding: 10px 20px 20px 20px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: 0 0 15px 3px #ccccccdb;
-    background-color: #fff;
+    box-shadow: 0 0 15px 3px var(--box-shadow);
+    background-color: var(--bg-color);
 }
 
 .form-container h2 {
@@ -32,18 +32,18 @@
     margin-top: 5px;
 }
 
-.form input:not([type="checkbox"]), select {
+.form input:not([type="checkbox"]), select, textarea {
     flex: 2;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
 }
 
 .form input:not([type="checkbox"]):focus, 
- select:focus {
+ select:focus, textarea:focus {
     outline: none;
-    border-color: #bababa;
-    box-shadow: 0 0 5px 1px #ccc;
+    border-color: var(--border-color-focus);
+    box-shadow: 0 0 5px 1px var(--box-shadow);
 }
 
 .form Button {
@@ -61,16 +61,16 @@
     width: 20px;
     height: 20px;
     appearance: none;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     cursor: pointer;
     position: relative;
-    margin-top: 6px;
+    margin-top: 8px;
     margin-right: 300px;
 }
 
 .form input[type="checkbox"]:checked::after {
-    content: '✔'; /* Символ галочки */
+    content: '✔';
     left: 3px;
     bottom: 0.1px;
     position: absolute;
@@ -78,6 +78,6 @@
 }
 
 .form input[type="checkbox"]:focus {
-    border-color: #bababa;
-    box-shadow: 0 0 5px 1px #ccc;
+    border-color: var(--border-color-focus);
+    box-shadow: 0 0 5px 1px var(--box-shadow);
 }

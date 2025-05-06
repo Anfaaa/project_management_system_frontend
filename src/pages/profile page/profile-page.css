@@ -1,0 +1,9 @@
+/* profile-page.css */
+
+.profile-page .form-container {
+    width: 650px;
+}
+
+.profile-page .form input[type="checkbox"] {
+    margin-right: 400px;
+}

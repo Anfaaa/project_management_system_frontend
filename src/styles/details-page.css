@@ -1,0 +1,73 @@
+/* details-page.css */
+
+.detail-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--darker-bg);
+    border-radius: 10px; 
+    box-shadow: 0 0 15px 3px  var(--box-shadow);
+}
+
+.detail-container h2, h1 {
+    text-align: center; 
+    margin-bottom: 20px;
+}
+
+.detail-container p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.detail-container strong {
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.detail-container .icon-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    position: static;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.detail-container select {
+    flex: 2;
+    padding: 3px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--darker-bg);
+    font-size: 16px; 
+    color: var(--dark-text);
+    cursor: pointer;
+}
+
+.detail-container select:focus {
+    outline: none;
+    border-color: var(--border-color-focus);
+    box-shadow: 0 0 5px 1px var(--box-shadow);
+}
+
+::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-text); 
+}
+
+.detail-container a {
+    color: var(--dark-text);
+    text-decoration: none;
+}
+
+.detail-container a:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+.detail-container Button {
+    display: block;
+    margin: 20px auto;
+}

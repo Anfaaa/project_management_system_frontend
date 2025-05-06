@@ -3,15 +3,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserLogin } from '../../API.js';
+import { useTheme } from '../../ThemeContext';
 import Button from "../../components/button/Button.jsx";
 import BackIcon from "../../components/BackIcon.jsx";
 import "./login-page.css";
 import "../../styles/form.css"
-import "../../styles/icon.css"
 import "../../styles/form-page.css";
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const { setTheme } = useTheme();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -30,7 +31,7 @@ const LoginPage = () => {
             });
             console.log('Вход успешен:', response.data);
             setSuccessMessage('Вход прошел успешно!');
-
+            setTheme(response.data.theme_preference);
             localStorage.setItem('access_token', response.data.access_token);
             localStorage.setItem('refresh_token', response.data.refresh_token);
             localStorage.setItem('is_admin', response.data.is_admin);
@@ -38,6 +39,7 @@ const LoginPage = () => {
             localStorage.setItem('notifications_status', response.data.notifications_status);
             localStorage.setItem('theme_preference', response.data.theme_preference);
             localStorage.setItem('user_id', response.data.user_id);
+            localStorage.setItem('username', response.data.username);
 
             navigate('/projects-list');
         } 
@@ -46,6 +48,8 @@ const LoginPage = () => {
                 const errorData = error.response.data;
                 if (errorData.username || errorData.password)
                     setErrorMessage(errorData.username || errorData.password);
+                else if (errorData.blocked)
+                    setErrorMessage(errorData.blocked);
                 else setErrorMessage("Неизвестная ошибка входа, попробуйте позже.");
             }
             else setErrorMessage("Сервер не отвечает, попробуйте позже.");
@@ -81,6 +85,7 @@ const LoginPage = () => {
                     {errorMessage && <p className='error-message'>{errorMessage}</p>}
                     {successMessage && <p className='success-message'>{successMessage}</p>}
                     <Button type='submit'>Войти</Button>
+                    <p style={{textAlign: 'center'}} onClick={() => navigate('/password-reset')}>Забыли пароль?</p>
                 </form>
             </div>
         </div>

@@ -1,0 +1,10 @@
+/* member-management-page.css */
+
+.member-management-page-container {
+    user-select: none;
+}
+
+.member-management-page-container .detail-container {
+    width: 90vw;
+    max-width: 1200px;
+}

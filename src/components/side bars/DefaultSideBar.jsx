@@ -15,23 +15,27 @@ const DefaultSideBar = () => {
                         <ExitIcon/>
                     </li>
                     <li>
-                        <Link to='/projects-list'>Список проектов</Link>
+                        <Link to='/projects-list'>Список всех проектов</Link>
                     </li>
-                    {is_admin && (
+                    {is_admin ? (
                         <>
                             <li>
-                                <Link to='/all_users_list'>Список всех пользователей системы</Link>
+                                <Link to='/all-users-info'>Список всех пользователей системы</Link>
                             </li>
                             <li>
-                                <Link to='/users_actions'>Действия пользователей в системе</Link>
+                                <Link to='/users-actions-page'>Действия пользователей в системе</Link>
                             </li>
                             <li>
-                                <Link to='/users_management'>Управление пользователями</Link>
+                                <Link to='/users-management-page'>Управление пользователями</Link>
                             </li>
                         </>
+                    ) : (
+                        <li>
+                            <Link to='/my-projects-list'>Список моих проектов</Link>
+                        </li>
                     )}
                     <li>
-                        <Link to='/profile'>Профиль</Link>
+                        <Link to='/profile-page' state={{ from: window.location.pathname }}>Профиль</Link>
                     </li>
                 </ul>
             </nav>

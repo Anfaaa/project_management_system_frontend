@@ -1,0 +1,69 @@
+/* calendar.css */
+
+.rbc-month-row .rbc-date-cell, .rbc-month-row .rbc-event {
+    height: auto !important;
+    white-space: normal;
+    padding: 5px;
+}
+
+.rbc-month-row {
+    display: table !important;
+}
+
+.task-calendar-container {
+    padding: 20px;
+    background-color: var(--darker-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--box-shadow);
+    margin: 20px;
+    height: 120vh;
+    user-select: none !important;
+}
+  
+
+.rbc-today {
+    background-color: var(--calendar-today-bg) !important;
+}
+
+.rbc-event {
+    border: 1px solid var(--border-color) !important;
+    color: var(--dark-text) !important; 
+    background-color: transparent !important;
+}
+
+.rbc-event-content {
+    word-wrap: break-word !important; 
+    white-space: normal !important;
+}
+
+.rbc-header {
+    background-color: var(--calendar-header-bg); 
+    color: var(--text-reverse-color);
+}
+
+.headLabel {
+    padding: 20px;
+}
+
+.other-user-task {
+    background-color: var(--calendar-other-tasks-bg) !important;
+    border-radius: 8px;
+}
+
+.my-task {
+    background-color: transparent !important;
+    border-radius: 8px;
+}
+
+.task-calendar-container a{
+    text-decoration: none;
+    color: var(--dark-text);
+    font-weight: 500;
+}
+
+.task-calendar-container a:hover{
+    font-weight: 700;
+}
+.rbc-day-bg.rbc-off-range-bg {
+    background-color: var(--calendar-off-date-bg);
+}

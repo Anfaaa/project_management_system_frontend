@@ -8,6 +8,6 @@
     justify-content: center;
     display: flex;
     padding-top: 10vh;
-    background-image: url("./wall.jpg");
+    background-image: var(--bg-img);
     background-size: cover;
 }

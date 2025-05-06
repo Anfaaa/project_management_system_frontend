@@ -1,0 +1,49 @@
+/* tools-segment.css */
+
+.tools-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1px 1px;
+}
+
+.filter-container, .sort-container {
+    position: relative;
+    display: inline-block;
+}
+
+.filter-menu, .sort-menu {
+    position: absolute;
+    top: 15px;
+    right: 70%;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px var(--box-shadow);
+    z-index: 1000;
+    padding: 10px;
+    border-radius: 4px;
+    width: 150%;
+    min-width: 200px;
+}
+
+.filter-menu select, .sort-menu select {
+    width: 100%;
+    margin-bottom: 8px;
+}

@@ -2,11 +2,18 @@
 
 .page-container-for-sidebar {
     display: flex;
-    width: 100vw;
+    user-select: none;
     min-height: 100vh;
+    overflow-x: hidden;
+
 }
 
 .page-container-for-sidebar .page-content {
     flex: 1;
     padding: 20px;
+}
+
+.page-content h3 {
+    margin: 0;
+    text-align: center;
 }

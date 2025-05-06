@@ -3,9 +3,9 @@
 .sidebar {
     width: 20vw;
     height: inherit;
-    background-color: #f4f4f4;
+    background-color: var(--sidebar-bg);
     user-select: none;
-    box-shadow: 0 0 5px 1px #ccc;
+    box-shadow: 0 0 5px 1px var(--box-shadow);
     padding: 20px;
 }
 
@@ -14,17 +14,26 @@
     padding: 0;
 }
 
+.sidebar nav ul li a strong {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.sidebar nav ul li a strong:hover {
+    font-weight: 700;
+}
+
 .sidebar nav ul li {
     margin-bottom: 15px;
 }
 
 .sidebar nav ul li a {
     text-decoration: none;
-    color: #333;
+    color: var(--dark-text);
     font-size: 18px;
 }
 
 .sidebar nav ul li a:hover {
     font-weight: 500;
-    color: #111;
+    color: var(--less-intense-text);
 }

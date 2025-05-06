@@ -1,0 +1,26 @@
+/* table.css */
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    user-select: none;
+}
+
+.table-container table, th, td {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+}
+
+.table-container th {
+    background-color: var(--table-header-bg);
+    text-align: left;
+    text-align: center;
+}
+
+.table-container .button {
+    margin: 5px auto;
+    width: 150px;
+    height: 30px;
+    font-size: 15px;
+}

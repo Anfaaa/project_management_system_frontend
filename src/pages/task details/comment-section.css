@@ -1,0 +1,85 @@
+/* comment-section.css */
+
+.comments-section {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 2px solid var(--border-color);
+}
+
+.comments-section p,
+.comments-section strong {
+    font-size: 0.9rem;
+}
+
+.comment .comment-icon-container {
+    display: flex;
+    top: 0;
+    right: 0;
+    position: absolute;
+    margin: 5px;
+    gap: 3px;
+}
+.comments-list {
+    margin-bottom: 20px;
+}
+
+.comment {
+    position: relative;
+    background-color: var(--bg-color);
+    padding: 12px; 
+    margin: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px var(--box-shadow);
+}
+
+.comment .comment-author {
+    font-weight: bold;
+    color: var(--dark-text);
+    margin-bottom: 4px;
+}
+
+.comment-date {
+    color: var(--comment-lighter-text);
+    margin-bottom: 8px;
+}
+
+.comment-text {
+    line-height: 1.4;
+    color: var(--comment-text);
+}
+
+.comments-section h3 {
+    text-align: center;
+}
+
+.comment-input {
+    width: 97%; 
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+    border-radius: 5px;
+    resize: none;
+    color: var(--dark-text);
+    background-color: var(--darker-bg);
+    height: 100px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.comment-input:focus {
+    outline: none;
+    border-color: var(--border-color);
+    box-shadow: 0 0 5px var(--box-shadow);
+}
+
+.comment .button {
+    margin: 5px;
+    width: 120px;
+    height: 30px;
+    font-size: 0.8rem;
+}
+
+.comment .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}

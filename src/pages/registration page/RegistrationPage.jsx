@@ -8,7 +8,6 @@ import BackIcon from "../../components/BackIcon.jsx";
 import "./registration-page.css";
 import "../../styles/form.css";
 import "../../styles/form-page.css";
-import "../../styles/icon.css"
 
 const RegistrationPage = () => {
     const navigate = useNavigate();
@@ -47,12 +46,10 @@ const RegistrationPage = () => {
         catch (error) {
             if (error.response?.data) {
                 const errorData = error.response.data;
-                if (errorData.email) {
+                if (errorData.email)
                     setErrorMessage(errorData.email);
-                }
-                else if (errorData.username) {
+                else if (errorData.username)
                     setErrorMessage(errorData.username);
-                }
                 else setErrorMessage("Неизвестная ошибка регистрации, попробуйте позже.");
             }
             else setErrorMessage("Сервер не отвечает, попробуйте позже.");

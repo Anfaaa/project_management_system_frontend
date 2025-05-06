@@ -1,0 +1,14 @@
+/* link.css */
+
+.link {
+    text-decoration: none;
+    color: var(--dark-text);
+    font-size: 20px;
+    user-select: none;
+    font-weight: 500;
+}
+
+.link:hover {
+    color: var(--text-color);
+    font-weight: 700;
+}

@@ -2,7 +2,7 @@
 
 .StartPage {
     user-select: none;
-    background-image: url("./wall.jpg");
+    background-image:var(--start-page-bg-img);
     background-size: cover;
     width: 100vw;
     height: 70vh;
