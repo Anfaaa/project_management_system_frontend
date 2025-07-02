@@ -1,14 +1,14 @@
 // ExitIcon.jsx
 
-import "../styles/icon.css"
+import "../../styles/icon.css";
 import { useNavigate } from "react-router-dom";
-import { UserLogout } from "../API";
-import { useTheme } from "../ThemeContext";
+import { UserLogout } from '../../API/usersAPI.js';
+import { useTheme } from "../../ThemeContext";
 
 export default function ExitIcon() {
     const { theme } = useTheme();
-    const exitIconImg = theme ? require('../icons/exit_icon2.png') : require('../icons/exit_icon.png');
-    const navigate = useNavigate()
+    const exitIconImg = theme ? require('../../icon pictures/exit_icon2.png') : require('../../icon pictures/exit_icon.png');
+    const navigate = useNavigate();
 
     const exit = async () => {
         try {
@@ -20,9 +20,9 @@ export default function ExitIcon() {
         }
         catch (error) {
             console.error('Ошибка при выходе из системы:', error);
-            alert('Произошла ошибка при выходе из системы!')
+            alert('Произошла ошибка при выходе из системы!');
         }
-    }
+    };
 
     return (
         <img
@@ -31,5 +31,5 @@ export default function ExitIcon() {
             className='icon'
             onClick={exit}
         />
-    )
+    );
 }

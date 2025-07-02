@@ -1,10 +1,10 @@
 // ResetPassword.jsx
 
 import { useState } from 'react';
-import { PasswordReset } from '../../API';
+import { PasswordReset } from '../../API/usersAPI.js';
 import { useNavigate } from 'react-router-dom';
 import Button from "../../components/button/Button.jsx";
-import BackIcon from "../../components/BackIcon.jsx";
+import BackIcon from "../../components/icons/BackIcon.jsx";
 import "./login-page.css";
 import "../../styles/form.css"
 import "../../styles/form-page.css";
@@ -27,13 +27,16 @@ const ResetPassword = () => {
         } catch (error) {
             if (error.response?.data) {
                 const errorData = error.response.data;
+
                 if (errorData.no_user)
                     setErrorMessage(errorData.no_user);
+
                 else setErrorMessage("Неизвестная ошибка, попробуйте позже.");
             }
             else setErrorMessage("Сервер не отвечает, попробуйте позже.");
         }
     };
+
     return (
         <div className='login-page form-page'>
             <BackIcon onClick={() => navigate('/login')} />
@@ -57,6 +60,6 @@ const ResetPassword = () => {
             </div>
         </div>
     );
-}
+};
 
 export default ResetPassword;

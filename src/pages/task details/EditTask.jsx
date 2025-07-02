@@ -5,22 +5,21 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { PRIORITY_LABELS } from '../../const';
 import { getProjectUsersToAssign } from "../../utils/getProjectUsersToAssign.js";
 import Button from "../../components/button/Button.jsx";
-import '../../styles/creation-form.css'
-import { EditTaskInfo, GetTaskDetails } from "../../API.js";
+import '../../styles/creation-form.css';
+import { EditTaskInfo, GetTaskDetails } from "../../API/tasksAPI.js";
 
 const EditTask = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
     const [users, setUsers] = useState([]);
     const [taskInfo, setTaskInfo] = useState({
         title: '',
         description: '',
         due_date: '',
         priority: '',
-        assigned_to_id: '',
+        assigned_to: '',
         is_gittable: false,
         git_url: ''
     });
@@ -34,29 +33,39 @@ const EditTask = () => {
         const GetDetails = async () => {
             try {
                 const response = await GetTaskDetails(id);
+
                 console.log('Получены детали задачи:', response.data);
                 setTaskInfo(response.data);
-            } catch (error) {
-                if (error.response && error.response.status === 403) {
-                    alert('У вас нет доступа к этому ресурсу');
-                    navigate('/projects-list')
-                }
+            } 
+            catch (error) {
                 console.error('Ошибка при загрузке деталий задачи:', error);
+                alert('Ошибка при загрузке деталей задачи, попробуйте позднее.');
             }
         };
+
         GetDetails();
-        getProjectUsersToAssign({
-            projectId,
-            current_user_group,
-            user_id,
-            users,
-            setUsers,
-            setAssignedTo: (id) => setTaskInfo(prev => ({ ...prev, assigned_to_id: id }))
-        });
-    }, [id, current_user_group, projectId, users, user_id, navigate]);
+
+        const GetUsers = async () => {
+            await getProjectUsersToAssign({
+                projectId,
+                current_user_group,
+                user_id,
+                setUsers,
+                setAssignedTo: (id) => setTaskInfo(prev => ({ ...prev, assigned_to_id: id }))
+            });
+
+            if (!Array.isArray(users)) {
+                navigate(location.state?.from || `/tasks/${id}/details`);
+            }
+        };
+
+        GetUsers();
+
+    }, [id, current_user_group, projectId, users, user_id, navigate, location.state?.from]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
         setTaskInfo((prevTask) => ({
             ...prevTask,
             [name]: value,
@@ -67,27 +76,30 @@ const EditTask = () => {
         e.preventDefault();
 
         setErrorMessage('');
-        setSuccessMessage('');
+
         try {
-            console.log('taskInfo^', taskInfo)
             const response = await EditTaskInfo(id, taskInfo);
+
             console.log('Задача успешно обновлена',  response.data);
             navigate(`/tasks/${id}/details`);
-        } catch (error) {
+        } 
+        catch (error) {
             if (error.response?.data) {
                 const errorData = error.response.data;
+
                 if (errorData.no_rights)
                     setErrorMessage(errorData.no_rights);
+
                 else if (errorData.due_date) 
                     setErrorMessage(errorData.due_date);
+
                 else setErrorMessage("Неизвестная ошибка при изменении задачи, \nпопробуйте позже.");
             }
             else setErrorMessage("Сервер не отвечает, попробуйте позже.");
         }
     };
-    console.log(taskInfo.assigned_to_id)
 
-    return(
+    return (
         <div className='form-container creation-form'>
             <h2>Редактирование задачи</h2>
             <form className='form' onSubmit={handleSubmit}>
@@ -135,13 +147,14 @@ const EditTask = () => {
                     </select>
                 </div>
                 <div className='form-row'>
-                    <label htmlFor='assigned_to_id'>Назначить:</label>
+                    <label htmlFor='assigned_to'>Назначить:</label>
                     <select 
-                        name="assigned_to_id" 
-                        value={taskInfo.assigned_to_id} 
+                        name="assigned_to" 
+                        value={taskInfo.assigned_to} 
                         onChange={handleInputChange}
                         disabled={current_user_group.group_name_in_project === 'Исполнитель'} 
                     >
+                        <option value="">Выберите исполнителя:</option>
                         {users.map(user => (
                             <option key={user.id} value={user.id}>
                                 {user.first_name} {user.last_name} ({user.username})
@@ -174,15 +187,13 @@ const EditTask = () => {
                     />
                 </div>
                 {errorMessage && <p className='error-message'>{errorMessage}</p>}
-                {successMessage && <p className='success-message'>{successMessage}</p>}
                 <div className="button-group">
-                    <Button onClick={() => navigate(location.state?.from || '/projects-list')}>
-                            Отмена
-                    </Button>
+                    <Button onClick={() => navigate(location.state?.from || `/tasks/${id}/details`)}>Отмена</Button>
                     <Button type='submit'>Изменить задачу</Button>
                 </div>
             </form>
         </div>
     );
 };
+
 export default EditTask;

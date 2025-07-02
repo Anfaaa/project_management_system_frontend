@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { GetUsersInProject } from '../../API.js';
+import { GetUsersInProject } from '../../API/managementAPI.js';
 import ProjectSideBar from "../../components/side bars/ProjectSideBar.jsx";
 import '../../styles/table.css';
 import '../../styles/details-page.css';
@@ -17,17 +17,18 @@ const ProjectMembersInfoPage = () => {
         const GetUsers = async () => {
             try {
                 const response = await GetUsersInProject(id);
+
                 console.log('Получены пользователи:', response.data);
                 setUsers(response.data);
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('Ошибка при загрузке пользователей:', error);
-                if (error.response && error.response.status === 403) {
-                    alert('У вас нет доступа к этому ресурсу');
-                    navigate(`/project/${id}/tasks`)
-                }
+                alert('Произошла ошибка при загрузке пользователей, попробуйте позднее.');
             }
         };
+
         GetUsers();
+
     }, [id, navigate]);
 
     return (
@@ -49,8 +50,9 @@ const ProjectMembersInfoPage = () => {
                         <tbody>
                             {users.map(user => (
                                 <tr key={user.id}>
-                                    <td>{user.first_name} {user.last_name} ({user.username}),<br/>
-                                    email: {user.email}
+                                    <td>
+                                        {user.first_name} {user.last_name} ({user.username}),<br/>
+                                        email: {user.email}
                                     </td>
                                     <td>{user.group_in_project}</td>
                                     <td>{new Date(user.last_login).toLocaleString()}</td>
@@ -62,6 +64,7 @@ const ProjectMembersInfoPage = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
+
 export default ProjectMembersInfoPage;

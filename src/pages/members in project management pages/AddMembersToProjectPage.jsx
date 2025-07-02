@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { GetUsersNotInProject, GetProjectRequests, AddMemberToProject, ChangeProjectRequestStatus } from '../../API';
-import './member-management-page.css'
+import { GetUsersNotInProject, GetProjectRequests, AddMemberToProject, ChangeProjectRequestStatus } from '../../API/managementAPI.js';
+import './member-management-page.css';
 import '../../styles/table.css';
 import '../../styles/details-page.css';
-import BackIcon from "../../components/BackIcon.jsx";
+import BackIcon from "../../components/icons/BackIcon.jsx";
 import Button from '../../components/button/Button';
-import SearchIcon from "../../components/SearchIcon.jsx";
+import SearchIcon from "../../components/icons/SearchIcon.jsx";
 
 const AddMembersToProjectPage = () => {
     const { id } = useParams();
@@ -26,10 +26,13 @@ const AddMembersToProjectPage = () => {
                     const response = await GetUsersNotInProject(id);
                     console.log('Получены пользователи:', response.data);
                     setUsers(response.data);
-                } catch (error) {
+                } 
+                catch (error) {
                     console.error('Ошибка при загрузке пользователей:', error);
+                    alert("Произошла ошибка при загрузке пользователей, попробуйте позднее.");
                 }
             };
+
             const GetRequests = async () => {
                 try {
                     const response = await GetProjectRequests(id);
@@ -38,33 +41,37 @@ const AddMembersToProjectPage = () => {
                 }
                 catch (error) {
                     console.error('Ошибка при загрузке заявок:', error);
+                    alert("Произошла ошибка при загрузке заявок в проект, попробуйте позднее.");
                 }
-            }
+            };
+
             GetUsers();
             GetRequests();
+            
         }, [id, refreshTrigger]);
 
     const AddMember = async (user_id) => {
-        const user_group_id = groups[user_id] || "Исполнитель";
+        const user_group = groups[user_id] || "Исполнитель";
 
         try {
-            const response = await AddMemberToProject(id, {
-                user_id,
-                'project_id': id,
-                user_group_id,
-            });
-            console.log('Пользователь успешно добавлен: ', response.data)
+            const response = await AddMemberToProject(id, { user_id, 'project_id': id, user_group });
+
+            console.log('Пользователь успешно добавлен: ', response.data);
             alert('Пользователь успешно добавлен!');
+
             setRefreshTrigger(prev => !prev);
         }
-        catch (error){
+        catch (error) {
             if (error.response?.data) {
                 const errorData = error.response.data;
-                console.error(errorData)
+                console.error(errorData);
+
                 if (errorData.no_rights) 
                     alert(errorData.no_rights);
+
                 else if (errorData.request_already_satisfied)
                     alert(errorData.request_already_satisfied);
+
                 else alert("Неизвестная ошибка при добавлении участника, \nпопробуйте позже.");
             }
             else alert("Сервер не отвечает, попробуйте позже.");
@@ -74,23 +81,28 @@ const AddMembersToProjectPage = () => {
     const RejectRequest = async (request_id) => {
         try {
             const response = await ChangeProjectRequestStatus(id, request_id, "Отклонена");
-            console.log('Заявка отклонена: ', response.data)
+
+            console.log('Заявка отклонена: ', response.data);
             alert('Заявка отклонена.');
+
             setRefreshTrigger(prev => !prev);
         }
         catch (error){
             if (error.response?.data) {
                 const errorData = error.response.data;
-                console.error(errorData)
+                console.error(errorData);
+
                 if (errorData.no_rights) 
                     alert(errorData.no_rights);
+
                 else if (errorData.request_already_satisfied)
                     alert(errorData.request_already_satisfied);
+
                 else alert("Неизвестная ошибка при добавлении участника, \nпопробуйте позже.");
             }
             else alert("Сервер не отвечает, попробуйте позже.");
         }
-    }
+    };
 
     const handleGroupChange = (userId, newGroup) => {
         setGroups(prevState => ({
@@ -131,8 +143,9 @@ const AddMembersToProjectPage = () => {
                         <tbody>
                             {filteredUsers.map(user => (
                                 <tr key={user.id}>
-                                    <td>{user.first_name} {user.last_name} ({user.username}),<br/>
-                                    email: {user.email}
+                                    <td>
+                                        {user.first_name} {user.last_name} ({user.username}),<br/>
+                                        email: {user.email}
                                     </td>
                                     <td>
                                         <select value={groups[user.id] || 'Исполнитель'} 
@@ -161,21 +174,24 @@ const AddMembersToProjectPage = () => {
                         <tbody>
                             {requests.map(request => (
                                 <tr key={request.id}>
-                                    <td>{request.first_name} {request.last_name} ({request.username}),<br/>
-                                    email: {request.email}
+                                    <td>
+                                        {request.first_name} {request.last_name} ({request.username}),<br/>
+                                        email: {request.email}
                                     </td>
                                     <td>{request.status}</td>
                                     <td>{new Date(request.created_at).toLocaleString()}</td>
                                     <td>
-                                        <select value={groups[request.created_by_id] || 'Исполнитель'} 
-                                        onChange={(e) => handleGroupChange(request.created_by_id, e.target.value)}>
+                                        <select value={groups[request.created_by] || 'Исполнитель'} 
+                                        onChange={(e) => handleGroupChange(request.created_by, e.target.value)}>
                                             <option>Исполнитель</option>
                                             <option>Менеджер</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <Button onClick={() => AddMember(request.created_by_id)}>Принять</Button>
-                                        {request.status!=="Отклонена" && (<Button onClick={() => RejectRequest(request.id)}>Отклонить</Button>)}
+                                        <Button onClick={() => AddMember(request.created_by)}>Принять</Button>
+                                        {request.status !== "Отклонена" && 
+                                            (<Button onClick={() => RejectRequest(request.id)}>Отклонить</Button>)
+                                        }
                                     </td>
                                 </tr>
                             ))}
@@ -184,6 +200,7 @@ const AddMembersToProjectPage = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 };
+
 export default AddMembersToProjectPage;

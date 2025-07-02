@@ -1,9 +1,12 @@
-import "../styles/icon.css"
-import { useTheme } from "../ThemeContext";
+// EditCommentIcon.jsx
+
+import "../../styles/icon.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function EditCommentIcon({onClick}) {
     const { theme } = useTheme();
-    const editCommentIconImg = theme ? require('../icons/edit_comment_icon2.png') : require('../icons/edit_comment_icon.png');
+    const editCommentIconImg = theme ? require('../../icon pictures/edit_comment_icon2.png') : require('../../icon pictures/edit_comment_icon.png');
+    
     return (
         <img
             src={editCommentIconImg}
@@ -11,5 +14,5 @@ export default function EditCommentIcon({onClick}) {
             className='icon'
             onClick={onClick}
         />
-    )
+    );
 }

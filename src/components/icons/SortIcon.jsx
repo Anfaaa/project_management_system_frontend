@@ -1,9 +1,12 @@
-import "../styles/icon.css"
-import { useTheme } from "../ThemeContext";
+// SortIcon.jsx
+
+import "../../styles/icon.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function SortIcon({onClick}) {
     const { theme } = useTheme();
-    const sortIconImg = theme ? require('../icons/sorting_icon2.png') : require('../icons/sorting_icon.png');
+    const sortIconImg = theme ? require('../../icon pictures/sorting_icon2.png') : require('../../icon pictures/sorting_icon.png');
+    
     return (
         <img
             src={sortIconImg}
@@ -11,5 +14,5 @@ export default function SortIcon({onClick}) {
             className='icon'
             onClick={onClick}
         />
-    )
+    );
 }

@@ -4,39 +4,43 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { PRIORITY_LABELS } from '../../const';
 import Button from "../../components/button/Button.jsx";
-import '../../styles/creation-form.css'
-import { EditProjectInfo, GetProjectDetails } from "../../API.js";
+import '../../styles/creation-form.css';
+import { EditProjectInfo, GetProjectDetails } from "../../API/projectsAPI.js";
 
 const EditProject = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
     const [projectInfo, setProjectInfo] = useState({
         title: '',
         description: '',
         due_date: '',
-        priority: 'Низкий',
+        priority: '',
         is_gittable: false,
         git_url: ''
-     });
+    });
 
     useEffect(() => {
         const GetDetails = async () => {
             try {
                 const response = await GetProjectDetails(id);
+
                 console.log('Получены детали проекта:', response.data);
                 setProjectInfo(response.data);
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('Ошибка при загрузке деталий проекта:', error);
+                alert('Ошибка при загрузке деталей проекта, попробуйте позднее.');
             }
         };
+
         GetDetails();
     }, [id]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
         setProjectInfo((prevProject) => ({
             ...prevProject,
             [name]: value,
@@ -47,18 +51,22 @@ const EditProject = () => {
         e.preventDefault();
 
         setErrorMessage('');
-        setSuccessMessage('');
+
         try {
             const response = await EditProjectInfo(id, projectInfo);
+
             console.log('Задача успешно обновлена',  response.data);
             navigate(`/projects/${id}/details`);
-        } catch (error) {
+        } 
+        catch (error) {
             if (error.response?.data) {
                 const errorData = error.response.data;
                 if (errorData.no_rights)
                     setErrorMessage(errorData.no_rights);
+
                 else if (errorData.due_date) 
                     setErrorMessage(errorData.due_date);
+
                 else setErrorMessage("Неизвестная ошибка при изменении проекта, \nпопробуйте позже.");
             }
             else setErrorMessage("Сервер не отвечает, попробуйте позже.");
@@ -137,15 +145,13 @@ const EditProject = () => {
                     />
                 </div>
                 {errorMessage && <p className='error-message'>{errorMessage}</p>}
-                {successMessage && <p className='success-message'>{successMessage}</p>}
                 <div className="button-group">
-                    <Button onClick={() => navigate(location.state?.from || '/projects-list')}>
-                            Отмена
-                    </Button>
+                    <Button onClick={() => navigate(location.state?.from || '/projects-list')}>Отмена</Button>
                     <Button type='submit'>Изменить проект</Button>
                 </div>
             </form>
         </div>
     );
 };
+
 export default EditProject;

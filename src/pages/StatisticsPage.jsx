@@ -6,7 +6,8 @@ import { useParams } from 'react-router-dom';
 import ProjectSideBar from "../components/side bars/ProjectSideBar.jsx";
 import Button from '../components/button/Button.jsx';
 import { GetStatusDistribution, GetPriorityDistribution, GetUserTaskDistribution, 
-  GetUnderloadedUsers, GetOverloadedUsers, GetUsersInProject } from '../API.js';
+  GetUnderloadedUsers, GetOverloadedUsers } from '../API/statisticsAPI.js';
+import { GetUsersInProject } from '../API/managementAPI.js';
 import '../styles/details-page.css';
 
 const StatisticsPage = () => {
@@ -18,39 +19,47 @@ const StatisticsPage = () => {
   const user_id = JSON.parse(localStorage.getItem('user_id'));
   const current_user_group = JSON.parse(localStorage.getItem('user_project_group'));
   const [selectedUser, setSelectedUser] = useState('');
-  const [chartVisible, setChartVisible] = useState(false)
+  const [chartVisible, setChartVisible] = useState(false);
   const is_admin = JSON.parse(localStorage.getItem('is_admin'));
 
   useEffect(() => {
     const GetUsers = async () => {
       if (users.length > 0) return;
+
       try {
         const response = await GetUsersInProject(id); 
+
         console.log('Полученные пользователи:', response.data);
-        const users_list = response.data.filter(user => user.group_in_project !== 'Руководитель проекта')
-        if (is_admin) {
+        const users_list = response.data.filter(user => user.group_in_project !== 'Руководитель проекта');
+
+        if (is_admin)
           setUsers(users_list);
-        }
+
         else if (current_user_group?.group_name_in_project !== 'Руководитель проекта') {
-            const manager_users_list = response.data.filter(user =>
-                (user.group_in_project !== 'Менеджер' || user.id === user_id)
+            const manager_users_list = users_list.filter(user =>
+              (user.group_in_project !== 'Менеджер' || user.id === user_id)
             );
+
             setUsers(manager_users_list);
-        } else {
-            setUsers(users_list);
         }
+        else
+          setUsers(users_list);
       }
       catch (error) {
         console.error('Ошибка при получении пользователей:', error);
       }
-    }
+    };
+
     GetUsers();
+
   }, [current_user_group?.group_name_in_project, id, user_id, users.length, is_admin]);
 
   const handleShowChart = async () => {
     setChartVisible(true);
+
     try {
       var response = '';
+
       switch (chartDetail) {
         case 'get_status':
           response = await GetStatusDistribution(id);
@@ -60,6 +69,7 @@ const StatisticsPage = () => {
             value: item.count
           })));
         break;
+
         case 'get_priority':
           response = await GetPriorityDistribution(id);
           console.log('Получены данные:', response.data);
@@ -68,6 +78,7 @@ const StatisticsPage = () => {
             value: item.count
           })));
         break;
+
         case 'get_underload':
           response = await GetUnderloadedUsers(id);
           console.log('Получены данные:', response.data);
@@ -76,6 +87,7 @@ const StatisticsPage = () => {
             value: item.task_count
           })));
         break;
+
         case 'get_overload':
           response = await GetOverloadedUsers(id);
           console.log('Получены данные:', response.data);
@@ -84,6 +96,7 @@ const StatisticsPage = () => {
             value: item.task_count
           })));
         break;
+
         case 'get_user_tasks':
           if (selectedUser !== '') {
             response = await GetUserTaskDistribution(id, selectedUser);
@@ -92,12 +105,14 @@ const StatisticsPage = () => {
               name: item.status,
               value: item.count
             })));
-          } else {
+          } 
+          else {
             alert('Не выбран пользователь для анализа задач!');
             return;
           }
           break;
-        default: alert("Выберите детали диаграммы!")
+        
+        default: alert("Выберите детали диаграммы!");
         return;
       }
     }
@@ -119,7 +134,6 @@ const StatisticsPage = () => {
             <option value="pie">Круговая</option>
           </select>
         </p>
-
         <p>
           Выберите детали диаграммы: <select value={chartDetail} onChange={(e) => setChartDetail(e.target.value)}>
             <option value="">Выберите детали диаграммы:</option>
@@ -130,8 +144,6 @@ const StatisticsPage = () => {
             <option value="get_user_tasks">Распределение задач выбранного пользователя</option>
           </select>
         </p>
-
-        {/* Показываем селектор пользователя только если выбрана соответствующая опция */}
         {chartDetail === 'get_user_tasks' && (
           <p>
             Выберите пользователя: <select value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
@@ -144,46 +156,46 @@ const StatisticsPage = () => {
             </select>
           </p>
         )}
-
         <Button onClick={handleShowChart}>Показать диаграмму</Button>
-      { chartVisible && (
-      <div style={{ marginTop: '30px' }}>
-        {chartData.length === 0 ? (
-          <p>Данные о заданиях в системе не найдены.</p>
-        ) : chartType === 'pie' ? (
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={chartData}
-                dataKey="value"
-                nameKey="name"
-                name="Количество задач"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                fill="#2F2F2F"
-                label
-              >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={['#857a7b', '#585858', '#728380', '#A9A9A9', '#76797f', '#827973', '#707f85'][index % 7]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        ) : (
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="value" fill="#707f85" name="Количество задач"/>
-            </BarChart>
-          </ResponsiveContainer>
+        { chartVisible && (
+          <div style={{ marginTop: '30px' }}>
+            {chartData.length === 0 ? (
+              <p>Данные о заданиях в системе не найдены.</p>
+            ) : chartType === 'pie' ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    dataKey="value"
+                    nameKey="name"
+                    name="Количество задач"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    fill="#2F2F2F"
+                    label
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={['#857a7b', '#585858', '#728380', '#A9A9A9', '#76797f', '#827973', '#707f85'][index % 7]} />
+                    ))}
+                  </Pie>
+                  <Tooltip/>
+                  <Legend/>
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={chartData}>
+                  <XAxis dataKey="name"/>
+                  <YAxis/>
+                  <Tooltip/>
+                  <Legend/>
+                  <Bar dataKey="value" fill="#707f85" name="Количество задач"/>
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+          </div>
         )}
-      </div>)}
       </div>
     </div>
   );

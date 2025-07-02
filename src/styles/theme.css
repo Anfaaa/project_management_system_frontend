@@ -1,72 +1,106 @@
 /* theme.css */
 
 body.light-theme {
+    /* общие стили */
+    --text-color: #000000;
+    --dark-text: #333;
+    --text-reverse-color: #fff;
+
+    --darker-bg: #f9f9f9;
+    --bg-color: #ffffff;
+
+    --box-shadow: #ccccccdb;
+    --border-color: #ddd;
+    --border-color-focus: #bababa; 
+
+    /* выделение текста */
     --selection-bg: #222;
     --selection-text: #fff;
-    --bg-color: #ffffff;
-    --darker-bg: #f9f9f9;
-    --border-color: #ddd;
+    
+    /* стиль таблицы */
     --table-header-bg: #f2f2f2;
-    --text-color: #000000;
-    --box-shadow: #ccccccdb;
-    --dark-text: #333;
-    --border-color-focus: #bababa;    
-    --bg-img: url("./light_wall.jpg");
+    
+    /* стиль кнопки */
     --button-bg: #000;
     --button-active-bg: #2b2b2b;
-    --text-reverse-color: #fff;
+    
+    /* боковое меню */
     --sidebar-bg: #f4f4f4;
     --less-intense-text: #111;
+
+    /* стиль календаря */
     --calendar-today-bg: #8492a0;
     --calendar-header-bg: #111;
     --calendar-other-tasks-bg: #b9a3cf;
     --calendar-off-date-bg: #ddd;
+
+    /* стиль строк ввода и выбора */
     --input-bg: #fff;
+
+    /* стиль комментариев */
     --comment-text: #444;
     --comment-lighter-text: #777;
+
+    /* стиль канбан-доски */
     --kanban-border: #bbb;
     --kanban-bg: #f4f4f4;
     --kanban-taskcard-bg: #dbdbdb;
     --kanban-taskcard-text: #424242;
+
+    /* фоновые картинки */
+    --bg-img: url("./light_wall.jpg");
     --start-page-bg-img: url("./start-page-light-wall.jpg");
 }
   
 body.dark-theme {
-    /*общий стиль*/
+    /* общие стили */
     --text-color: #f0f0f0;
-    --border-color: #4b4b4b;
+    --dark-text: #bbbbbb;
+    --text-reverse-color: #000;
+    
+    --darker-bg: #202020;
     --bg-color: #2c2c2c;
+
+    --box-shadow: #484848db;
+    --border-color: #4b4b4b;
+    --border-color-focus: #414141;
+    
+    /* выделение текста */
     --selection-bg: #ddd;
     --selection-text: #2c2c2c;
-    --dark-text: #bbbbbb;
-    /*стиль таблицы*/
+
+    /* стиль таблицы */
     --table-header-bg: #202020;
-    /*стиль информационного контейнера details*/
-    --darker-bg: #202020;
-    --box-shadow: #484848db;
-    --border-color-focus: #414141;
-    /*стиль форм*/
-    --bg-img: url("./dark_wall.jpg");
+
+    /* стиль кнопки */
     --button-bg: #979797;
-    --text-reverse-color: #000;
     --button-active-bg: #ddd;
+
+    /* боковое меню */
     --sidebar-bg: #202020;
     --less-intense-text: #eee;
-    /*стиль календаря*/
+
+    /* стиль календаря */
     --calendar-today-bg: #7d91ad;
     --calendar-header-bg: #eee;
     --calendar-other-tasks-bg: #104880;
     --calendar-off-date-bg: #2c2c2c;
+    
+    /* стиль строк ввода и выбора */
     --input-bg: #2c2c2c;
-    /*стиль комментариев*/
+
+    /* стиль комментариев */
     --comment-text: #ccc;
     --comment-lighter-text: #777;
-    /*стиль канбан*/
+
+    /* стиль канбан-доски */
     --kanban-border: #222;
     --kanban-bg: #4d4d4d;
     --kanban-taskcard-bg: #161616;
     --kanban-taskcard-text: #ccc;
 
+    /* фоновые картинки */
+    --bg-img: url("./dark_wall.jpg");
     --start-page-bg-img: url("./start-page-dark-wall.jpg");
 }
   

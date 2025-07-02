@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserRegistration } from '../../API.js';
+import { UserRegistration } from '../../API/usersAPI.js';
 import Button from "../../components/button/Button.jsx";
-import BackIcon from "../../components/BackIcon.jsx";
+import BackIcon from "../../components/icons/BackIcon.jsx";
 import "./registration-page.css";
 import "../../styles/form.css";
 import "../../styles/form-page.css";
@@ -18,7 +18,6 @@ const RegistrationPage = () => {
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,27 +28,29 @@ const RegistrationPage = () => {
         }
 
         setErrorMessage('');
-        setSuccessMessage('');
         
         try {
-                const response = await UserRegistration({
-                    username,
-                    email,
-                    first_name: firstName,
-                    last_name: lastName,
-                    password,
-                });
-                console.log('Регистрация успешна:', response.data);
-                setSuccessMessage('Регистрация прошла успешно!');
-                navigate('/login');
+            const response = await UserRegistration({
+                username,
+                email,
+                first_name: firstName,
+                last_name: lastName,
+                password,
+            });
+
+            console.log('Регистрация успешна:', response.data);
+            navigate('/login');
         } 
         catch (error) {
             if (error.response?.data) {
                 const errorData = error.response.data;
+
                 if (errorData.email)
                     setErrorMessage(errorData.email);
+
                 else if (errorData.username)
                     setErrorMessage(errorData.username);
+
                 else setErrorMessage("Неизвестная ошибка регистрации, попробуйте позже.");
             }
             else setErrorMessage("Сервер не отвечает, попробуйте позже.");
@@ -123,11 +124,11 @@ const RegistrationPage = () => {
                         />
                     </div>
                     {errorMessage && <p className='error-message'>{errorMessage}</p>}
-                    {successMessage && <p className='success-message'>{successMessage}</p>}
                     <Button type='submit'>Зарегестрироваться</Button>
                 </form>
             </div>
         </div>
     );
-}
+};
+
 export default RegistrationPage;

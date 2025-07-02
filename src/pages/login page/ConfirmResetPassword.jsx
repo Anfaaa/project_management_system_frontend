@@ -1,10 +1,10 @@
 // ConfirmResetPassword.jsx
 
 import { useState } from 'react';
-import { PasswordResetConfirm } from '../../API';
+import { PasswordResetConfirm } from '../../API/usersAPI.js';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from "../../components/button/Button.jsx";
-import BackIcon from "../../components/BackIcon.jsx";
+import BackIcon from "../../components/icons/BackIcon.jsx";
 import "./login-page.css";
 import "../../styles/form.css"
 import "../../styles/form-page.css";
@@ -24,20 +24,24 @@ const ConfirmResetPassword = () => {
         setSuccessMessage('');
 
         if (newPassword !== passwordRepeat) {
-        setErrorMessage('Пароли не совпадают');
-        return;
+            setErrorMessage('Пароли не совпадают');
+            return;
         }
 
         try {
             await PasswordResetConfirm(uidb64, token, { new_password: newPassword });
             setSuccessMessage('Пароль успешно изменен!');
-        } catch (error) {
+        } 
+        catch (error) {
             if (error.response?.data) {
                 const errorData = error.response.data;
+                
                 if (errorData.wrong_token)
                     setErrorMessage(errorData.wrong_token);
+
                 else if (errorData.bad_url)
                     setErrorMessage(errorData.bad_url);
+
                 else setErrorMessage("Неизвестная ошибка, попробуйте позже.");
             }
             else setErrorMessage("Сервер не отвечает, попробуйте позже.");

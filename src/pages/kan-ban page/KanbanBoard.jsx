@@ -3,10 +3,10 @@
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import ProjectSideBar from "../../components/side bars/ProjectSideBar.jsx";
 import { useState, useEffect } from 'react';
-import { ChangeTaskStatus, GetMyTasks } from '../../API';
+import { ChangeTaskStatus, GetMyTasks } from '../../API/tasksAPI.js';
 import { Link } from 'react-router-dom';
 import './kanban-board.css';
-import { TASK_STATUS_LABELS } from '../../const';
+import { TASK_STATUS_LABELS } from '../../const.js';
 
 const KanbanBoard = () => {
     const [tasks, setTasks] = useState([]);
@@ -18,9 +18,11 @@ const KanbanBoard = () => {
             try {
                 const response = await GetMyTasks(project_id);
                 setTasks(response.data);
-                console.log("Полученные задачи:", response.data)
-            } catch (error) {
+                console.log("Полученные задачи:", response.data);
+            } 
+            catch (error) {
                 console.error('Ошибка при загрузке задач:', error);
+                alert("Произошла ошибка при загрузке задач, попробуйте позднее.");
             }
         };
         getTasks();
@@ -36,9 +38,7 @@ const KanbanBoard = () => {
 
             setTasks(prevTasks =>
                 prevTasks.map(task =>
-                    task.id.toString() === taskId
-                        ? { ...task, status: newStatus }
-                        : task
+                    task.id.toString() === taskId ? { ...task, status: newStatus } : task
                 )
             );
         } catch (error) {
@@ -72,7 +72,7 @@ const KanbanBoard = () => {
                                         <Link to={`/tasks/${task.id}/details`} state={{ from: window.location.pathname }}>
                                             {task.title}
                                         </Link>
-                                        <br />
+                                        <br/>
                                         Дата сдачи: {new Date(task.due_date).toLocaleDateString()}
                                     </Draggable>
                                 ))}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { GetUsersInProject, ChangeProjectMemberGroup } from '../../API.js';
+import { GetUsersInProject, ChangeProjectMemberGroup } from '../../API/managementAPI.js';
 import ProjectSideBar from "../../components/side bars/ProjectSideBar.jsx";
 import '../../styles/table.css';
 import '../../styles/details-page.css';
@@ -20,28 +20,32 @@ const ChangeProjectMemberGroupPage = () => {
         const GetUsers = async () => {
             try {
                 const response = await GetUsersInProject(id);
+                
                 console.log('Получены пользователи:', response.data);
                 const userList = response.data.filter(user => 
                     user.id !== currentUserId
                 );
+                
                 setUsers(userList);
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('Ошибка при загрузке пользователей:', error);
-                if (error.response && error.response.status === 403) {
-                    alert('У вас нет доступа к этому ресурсу');
-                    navigate(`/project/${id}/tasks`)
-                }
+                alert("Произошла ошибка при загрузке пользователей, попробуйте позднее.");
             }
         };
+        
         GetUsers();
     }, [id, refreshTrigger, currentUserId, navigate]);
 
     const handleChangeMemberGroup = async (project_id, user_id) => {
         if (window.confirm('Вы уверены, что хотите изменить группу этого пользователя?')) {
-            await ChangeProjectMemberGroup(project_id, { user_id});
+            await ChangeProjectMemberGroup(project_id, { user_id });
+
+            alert('Группа успешно изменена!');
             setRefreshTrigger(prev => !prev);
         }
     };
+
     return (
         <div className="page-container-for-sidebar">
             <ProjectSideBar user_group={current_user_group?.group_name_in_project} project_id={id}/>
@@ -60,8 +64,9 @@ const ChangeProjectMemberGroupPage = () => {
                         <tbody>
                             {users.map(user => (
                                 <tr key={user.id}>
-                                    <td>{user.first_name} {user.last_name} ({user.username}),<br/>
-                                    email: {user.email}
+                                    <td>
+                                        {user.first_name} {user.last_name} ({user.username}),<br/>
+                                        email: {user.email}
                                     </td>
                                     <td>{user.group_in_project}</td>
                                     <td>
@@ -79,6 +84,6 @@ const ChangeProjectMemberGroupPage = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 export default ChangeProjectMemberGroupPage;

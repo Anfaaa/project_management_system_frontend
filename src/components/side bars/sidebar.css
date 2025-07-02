@@ -37,3 +37,8 @@
     font-weight: 500;
     color: var(--less-intense-text);
 }
+
+.sidebar nav ul li a:hover img{
+    width: 15px;
+    height: 15px;
+}

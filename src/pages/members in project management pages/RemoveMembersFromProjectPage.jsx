@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { GetUsersInProject } from '../../API';
+import { GetUsersInProject } from '../../API/managementAPI.js';
 import { removeProjectMember } from "../../utils/removeProjectMember.js";
-import './member-management-page.css'
+import './member-management-page.css';
 import '../../styles/table.css';
 import '../../styles/details-page.css';
-import BackIcon from "../../components/BackIcon.jsx";
+import BackIcon from "../../components/icons/BackIcon.jsx";
 import Button from '../../components/button/Button';
 
 const RemoveMembersFromProjectPage = () => {
@@ -17,23 +17,27 @@ const RemoveMembersFromProjectPage = () => {
     const [users, setUsers] = useState([]);
     const [refreshTrigger, setRefreshTrigger] = useState(false);
     const currentUserId = Number(localStorage.getItem('user_id'));
-    console.log('id: ', currentUserId)
 
     useEffect(() => {
-            const GetUsers = async () => {
-                try {
-                    const response = await GetUsersInProject(id);
-                    console.log('Получены пользователи:', response.data);
-                    const userList = response.data.filter(user => 
-                        user.id !== currentUserId
-                    );
-                    setUsers(userList);
-                } catch (error) {
-                    console.error('Ошибка при загрузке пользователей:', error);
-                }
-            };
-            GetUsers();
-        }, [id, refreshTrigger, currentUserId]);
+        const GetUsers = async () => {
+            try {
+                const response = await GetUsersInProject(id);
+                console.log('Получены пользователи:', response.data);
+
+                const userList = response.data.filter(user => 
+                    user.id !== currentUserId
+                );
+
+                setUsers(userList);
+            } 
+            catch (error) {
+                console.error('Ошибка при загрузке пользователей:', error);
+                alert("Произошла ошибка при загрузке пользователей, попробуйте позднее.");
+            }
+        };
+        
+        GetUsers();
+    }, [id, refreshTrigger, currentUserId]);
 
     const handleRemoveMember = async (userId) => {
         if (window.confirm('Вы уверены, что хотите исключить пользователя?')) {
@@ -59,8 +63,9 @@ const RemoveMembersFromProjectPage = () => {
                         <tbody>
                             {users.map(user => (
                                 <tr key={user.id}>
-                                    <td>{user.first_name} {user.last_name} ({user.username}),<br/>
-                                    email: {user.email}
+                                    <td>
+                                        {user.first_name} {user.last_name} ({user.username}),<br/>
+                                        email: {user.email}
                                     </td>
                                     <td>{user.group_in_project}</td>
                                     <td>
@@ -73,6 +78,7 @@ const RemoveMembersFromProjectPage = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 };
+
 export default RemoveMembersFromProjectPage;

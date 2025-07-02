@@ -1,9 +1,12 @@
-import "../styles/icon.css"
-import { useTheme } from "../ThemeContext";
+// SearchIcon.jsx
+
+import "../../styles/icon.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function SearchIcon({onClick}) {
     const { theme } = useTheme();
-    const searchIconImg = theme ? require('../icons/search_icon2.png') : require('../icons/search_icon.png');
+    const searchIconImg = theme ? require('../../icon pictures/search_icon2.png') : require('../../icon pictures/search_icon.png');
+    
     return (
         <img
             src={searchIconImg}
@@ -11,5 +14,5 @@ export default function SearchIcon({onClick}) {
             className='icon search-icon'
             onClick={onClick}
         />
-    )
+    );
 }

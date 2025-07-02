@@ -1,7 +1,7 @@
 // NotPrivateTasksList.jsx
 
 import TasksListPageTemplate from "./TasksListPageTemplate.jsx";
-import { GetNotPrivateTasks } from "../../API";
+import { GetNotPrivateTasks } from "../../API/tasksAPI.js";
 import { useParams } from "react-router-dom";
 
 const NotPrivateTasksList = () => {

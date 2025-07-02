@@ -1,7 +1,7 @@
 // MyTasksList.jsx
 
 import TasksListPageTemplate from "./TasksListPageTemplate.jsx";
-import { GetMyTasks } from "../../API";
+import { GetMyTasks } from "../../API/tasksAPI.js";
 import { useParams } from "react-router-dom";
 
 const MyTasksList = () => {

@@ -1,9 +1,12 @@
-import "../styles/icon.css"
-import { useTheme } from "../ThemeContext";
+// FilterIcon.jsx
+
+import "../../styles/icon.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function FilterIcon({onClick}) {
     const { theme } = useTheme();
-    const filterIconImg = theme ? require('../icons/filter_icon2.png') : require('../icons/filter_icon.png');
+    const filterIconImg = theme ? require('../../icon pictures/filter_icon2.png') : require('../../icon pictures/filter_icon.png');
+    
     return (
         <img
             src={filterIconImg}
@@ -11,5 +14,5 @@ export default function FilterIcon({onClick}) {
             className='icon'
             onClick={onClick}
         />
-    )
+    );
 }

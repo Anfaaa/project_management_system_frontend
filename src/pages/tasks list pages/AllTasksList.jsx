@@ -1,7 +1,7 @@
 // AllTasksList.jsx
 
 import TasksListPageTemplate from "./TasksListPageTemplate.jsx";
-import { GetAllTasks } from "../../API";
+import { GetAllTasks } from "../../API/tasksAPI.js";
 import { useParams } from "react-router-dom";
 
 const AllTasksList = () => {

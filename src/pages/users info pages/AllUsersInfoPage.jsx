@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetAllUsersInfo } from '../../API.js';
+import { GetAllUsersInfo } from '../../API/usersAPI.js';
 import DefaultSideBar from "../../components/side bars/DefaultSideBar.jsx";
-import SortIcon from "../../components/SortIcon.jsx";
-import SearchIcon from "../../components/SearchIcon.jsx";
+import SortIcon from "../../components/icons/SortIcon.jsx";
+import SearchIcon from "../../components/icons/SearchIcon.jsx";
 import '../../styles/table.css';
 import '../../styles/details-page.css';
 import '../../styles/form.css';
@@ -23,49 +23,49 @@ const AllUsersInfoPage = () => {
         const GetUsers = async () => {
             try {
                 const response = await GetAllUsersInfo();
+
                 console.log('Получены пользователи:', response.data);
                 setUsers(response.data);
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('Ошибка при загрузке пользователей:', error);
-                if (error.response && error.response.status === 403) {
-                    alert('У вас нет доступа к этому ресурсу');
-                    navigate(`/projects-list`)
-                }
+                alert('Произошла ошибка при загрузке пользователей, попробуйте позднее.');
             }
         };
+
         GetUsers();
+
     }, [navigate]);
 
     const filteredUsers = users.filter(user => {
         if (!searchedObject) return true;
+
         const search = searchedObject.toLowerCase();
-      
+
         return (
-          user.username?.toLowerCase().includes(search) ||
-          user.first_name?.toLowerCase().includes(search) ||
-          user.last_name?.toLowerCase().includes(search) ||
-          user.projects?.some(project =>
-            project.project_name?.toLowerCase().includes(search) ||
-            project.group?.toLowerCase().includes(search)
-          ) ||
-          (user.is_admin && 'Администратор'.toLowerCase().includes(search)) ||
-          (user.is_project_leader && 'Руководитель проектов'.toLowerCase().includes(search)) ||
-          (!user.is_admin && !user.is_project_leader && 'Обычный пользователь'.toLowerCase().includes(search))
-          ||
-          ((user.is_active === false) && 'Заблокирован'.toLowerCase().includes(search)) ||
-          ((user.is_active === true) && 'Активен'.toLowerCase().includes(search))
+            user.username?.toLowerCase().includes(search) ||
+            user.first_name?.toLowerCase().includes(search) ||
+            user.last_name?.toLowerCase().includes(search) ||
+            user.projects?.some(project =>
+                project.project_name?.toLowerCase().includes(search) ||
+                project.group?.toLowerCase().includes(search)
+            ) ||
+            (user.is_admin && 'Администратор'.toLowerCase().includes(search)) ||
+            (user.is_project_leader && 'Руководитель проектов'.toLowerCase().includes(search)) ||
+            (!user.is_admin && !user.is_project_leader && 'Обычный пользователь'.toLowerCase().includes(search)) ||
+            ((user.is_active === false) && 'Заблокирован'.toLowerCase().includes(search)) ||
+            ((user.is_active === true) && 'Активен'.toLowerCase().includes(search))
         );
     });
 
-    // Сортировка
     const sortedUsers = [...filteredUsers].sort((a, b) => {
         let comparison = 0;
 
-        if (sortBy === 'last_login') {
+        if (sortBy === 'last_login')
             comparison = new Date(a.last_login) - new Date(b.last_login);
-        } else if (sortBy === 'date_joined') {
+
+        else if (sortBy === 'date_joined')
             comparison = new Date(a.date_joined) - new Date(b.date_joined);
-        }
 
         return sortOrder === 'desc' ? -comparison : comparison;
     });
@@ -119,22 +119,25 @@ const AllUsersInfoPage = () => {
                         <tbody>
                             {sortedUsers.map(user => (
                                 <tr key={user.id}>
-                                    <td>{user.first_name} {user.last_name} ({user.username}),<br/>
+                                    <td>
+                                        {user.first_name} {user.last_name} ({user.username}),<br/>
                                         email: {user.email}
                                     </td>
-                                    <td>{user.projects.map(project => (
-                                        <p key={project.id}> 
-                                            «{project.project_name}» - {project.group_name}<br/>
-                                        </p>
-                                    ))}</td>
                                     <td>
-                                    {user.is_admin ? (
-                                        <span>Администратор</span>
-                                    ) : user.is_project_leader ? (
-                                        <span>Руководитель проектов</span>
-                                    ) : (
-                                        <span>Обычный пользователь</span>
-                                    )}
+                                        {user.projects.map(project => (
+                                            <p key={project.id}> 
+                                                «{project.project_name}» - {project.group_name}<br/>
+                                            </p>
+                                        ))}
+                                    </td>
+                                    <td>
+                                        {user.is_admin ? (
+                                            <span>Администратор</span>
+                                        ) : user.is_project_leader ? (
+                                            <span>Руководитель проектов</span>
+                                        ) : (
+                                            <span>Обычный пользователь</span>
+                                        )}
                                     </td>
                                     <td>{new Date(user.last_login).toLocaleString()}</td>
                                     <td>{new Date(user.date_joined).toLocaleString()}</td>
@@ -152,6 +155,7 @@ const AllUsersInfoPage = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
+
 export default AllUsersInfoPage;

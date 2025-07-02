@@ -1,11 +1,12 @@
 // BackIcon.jsx
 
-import "../styles/icon.css"
-import { useTheme } from "../ThemeContext";
+import "../../styles/icon.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function BackIcon({onClick}) {
     const { theme } = useTheme();
-    const backIconImg = theme ? require('../icons/back_icon2.png') : require('../icons/back_icon.png');
+    const backIconImg = theme ? require('../../icon pictures/back_icon2.png') : require('../../icon pictures/back_icon.png');
+    
     return (
         <img
             src={backIconImg}
@@ -13,5 +14,5 @@ export default function BackIcon({onClick}) {
             className='icon icon-back'
             onClick={onClick}
         />
-    )
+    );
 }

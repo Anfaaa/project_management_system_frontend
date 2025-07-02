@@ -1,9 +1,12 @@
-import "../styles/icon.css"
-import { useTheme } from "../ThemeContext";
+// AddIcon.jsx
+
+import "../../styles/icon.css";
+import { useTheme } from "../../ThemeContext";
 
 export default function AddIcon({onClick}) {
     const { theme } = useTheme();
-    const addIconImg = theme ? require('../icons/add_icon2.png') : require('../icons/add_icon.png');
+    const addIconImg = theme ? require('../../icon pictures/add_icon2.png') : require('../../icon pictures/add_icon.png');
+    
     return (
         <img
             src={addIconImg}
@@ -11,5 +14,5 @@ export default function AddIcon({onClick}) {
             className='icon'
             onClick={onClick}
         />
-    )
+    );
 }

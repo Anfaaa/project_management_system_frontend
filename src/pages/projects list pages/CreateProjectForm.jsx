@@ -3,9 +3,8 @@
 import { useState } from "react";
 import { PRIORITY_LABELS } from '../../const.js';
 import Button from "../../components/button/Button.jsx";
-import '../../styles/creation-form.css'
-import { CreateProject } from "../../API.js";
-
+import '../../styles/creation-form.css';
+import { CreateProject } from "../../API/projectsAPI.js";
 
 const CreateProjectForm = ( {createFormHidden} ) => {
     const [title, setTitle] = useState('');
@@ -15,19 +14,12 @@ const CreateProjectForm = ( {createFormHidden} ) => {
     const [isGittable, setIsGittable] = useState(false);
     const [gitUrl, setGitUrl] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
 
     const handleSubmit = async(e) => {
         e.preventDefault();
 
         const user_id = localStorage.getItem('user_id');
-        if (!user_id) {
-            console.error('ID пользователя не найден!');
-            return;
-        }
-
         setErrorMessage('');
-        setSuccessMessage('');
 
         try {
             const response = await CreateProject({
@@ -41,18 +33,22 @@ const CreateProjectForm = ( {createFormHidden} ) => {
                 created_by_id: user_id,
             });
             console.log('Проект успешно создан', response.data);
-            setSuccessMessage('Проект успешно создан!');
+
             createFormHidden();
         }
         catch (error) {
             if (error.response?.data) {
                 const errorData = error.response.data;
+
                 if (errorData.created_by_id) 
                     setErrorMessage(errorData.created_by_id);
+
                 else if (errorData.no_rights)
                     setErrorMessage(errorData.no_rights);
+
                 else if (errorData.due_date) 
                     setErrorMessage(errorData.due_date);
+
                 else setErrorMessage("Неизвестная ошибка при создании проекта, \nпопробуйте позже.");
             }
             else setErrorMessage("Сервер не отвечает, попробуйте позже.");
@@ -123,7 +119,6 @@ const CreateProjectForm = ( {createFormHidden} ) => {
                     />
                 </div>
                 {errorMessage && <p className='error-message'>{errorMessage}</p>}
-                {successMessage && <p className='success-message'>{successMessage}</p>}
                 <div className="button-group">
                     <Button onClick={createFormHidden}>Отмена</Button>
                     <Button type='submit'>Создать проект</Button>
@@ -131,5 +126,6 @@ const CreateProjectForm = ( {createFormHidden} ) => {
             </form>
         </div>
     );
-}
+};
+
 export default CreateProjectForm;

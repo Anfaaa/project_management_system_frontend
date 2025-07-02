@@ -1,13 +1,13 @@
-/* calendar.css */
+/* calendar-page.css */
 
 .rbc-month-row .rbc-date-cell, .rbc-month-row .rbc-event {
-    height: auto !important;
+    height: auto;
     white-space: normal;
     padding: 5px;
 }
 
 .rbc-month-row {
-    display: table !important;
+    display: table;
 }
 
 .task-calendar-container {
@@ -17,9 +17,8 @@
     box-shadow: 0 2px 8px var(--box-shadow);
     margin: 20px;
     height: 120vh;
-    user-select: none !important;
+    user-select: none;
 }
-  
 
 .rbc-today {
     background-color: var(--calendar-today-bg) !important;
@@ -28,11 +27,11 @@
 .rbc-event {
     border: 1px solid var(--border-color) !important;
     color: var(--dark-text) !important; 
-    background-color: transparent !important;
+    background-color: transparent;
 }
 
 .rbc-event-content {
-    word-wrap: break-word !important; 
+    word-wrap: break-word; 
     white-space: normal !important;
 }
 
@@ -55,15 +54,16 @@
     border-radius: 8px;
 }
 
-.task-calendar-container a{
+.task-calendar-container a {
     text-decoration: none;
     color: var(--dark-text);
     font-weight: 500;
 }
 
-.task-calendar-container a:hover{
+.task-calendar-container a:hover {
     font-weight: 700;
 }
+
 .rbc-day-bg.rbc-off-range-bg {
     background-color: var(--calendar-off-date-bg);
 }
